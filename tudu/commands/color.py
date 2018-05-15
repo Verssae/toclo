@@ -1,6 +1,9 @@
 
 # color reference : https://stackoverflow.com/questions/287871/print-in-terminal-with-colors
 import unicodedata
+from colorama import init
+from colorama import Fore, Back, Style
+init()
  
 def preformat_cjk (string, width, align='<', fill=' '):
     # refer from : https://sarc.io/index.php/development/810-python-print-format-padding
@@ -11,7 +14,7 @@ def preformat_cjk (string, width, align='<', fill=' '):
         '^': lambda s: fill * (count / 2) + s + fill * (count / 2 + count % 2) }[align](string)
     
 def print_red(message, end = ''):
-    print('\x1b[1;31m' + message + '\x1b[0m',end=end)
+    print(Fore.RED + message,end=end)
 
 
 def print_green(message, end = ''):
