@@ -9,9 +9,9 @@ def show():
 
     rows = cur.fetchall()
 
-    print_blue('╭─────┬─────────────────────────┬─────────────┬─────╮','\n')
-    print_blue("│")
-    print_red('{:>5}'.format("ID"))
+    print_blue("┌─────┬─────────────────────────┬─────────────┬─────┐",'\n')
+    print_blue('│')
+    print_red("{:>5}".format("ID"))
     print_blue("│")
     print_cyan('{:>25}'.format("Todo"))
     print_blue("│")
@@ -31,4 +31,4 @@ def show():
         print_blue("│")
         print_green('{:^5}'.format(row[3]*"V"))
         print_blue("│",'\n')
-    print_blue('╰─────┴─────────────────────────┴─────────────┴─────╯','\n')
+    print_blue('└─────┴─────────────────────────┴─────────────┴─────┘','\n')
