@@ -3,7 +3,7 @@ from .base import Base
 
 class Add(Base):
     def run(self):
-        conn = sqlite3.connect("lab.db")
+        conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
 
         inputed_what = self.options['<what>']

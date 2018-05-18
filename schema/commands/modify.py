@@ -6,7 +6,7 @@ from .show import *
 class Modify(Base):
     def run(self):
 
-        conn = sqlite3.connect("lab.db")
+        conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
         
         modify_id = input("Record id? ") if self.options['<id>'] == None else self.options['<id>']

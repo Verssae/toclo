@@ -5,7 +5,7 @@ class Create(Base):
     """Say hello, world!"""
 
     def run(self):
-        conn = sqlite3.connect("lab.db")
+        conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
 
         table_create_sql = """create table if not exists todo (
