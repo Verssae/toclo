@@ -7,7 +7,7 @@ from subprocess import call
 
 from setuptools import Command, find_packages, setup
 
-from tudu import __version__
+from schema import __version__
 
 
 this_dir = abspath(dirname(__file__))
@@ -33,7 +33,7 @@ class RunTests(Command):
 
 
 setup(
-    name = 'tudu',
+    name = 'schema',
     version = __version__,
     description = 'A todo list command line program in Python.',
     long_description = long_description,
@@ -63,7 +63,7 @@ setup(
     },
     entry_points = {
         'console_scripts': [
-            'tudu=tudu.cli:main',
+            'schema=schema.cli:main',
         ],
     },
     cmdclass = {'test': RunTests},

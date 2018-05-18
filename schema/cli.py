@@ -1,25 +1,25 @@
 """
 ┌───────────────────┐
-│tudu: the Todo List│
+│schema: the Todo List│
 └───────────────────┘
 
 Usage:
-    tudu -h | --help
-    tudu --version
-    tudu create
-    tudu add [<what> <due>]
-    tudu ls
-    tudu modify [<id> <mwhat> <mdue> <v>]
+    schema -h | --help
+    schema --version
+    schema create
+    schema add [<what> <due>]
+    schema ls
+    schema modify [<id> <mwhat> <mdue> <v>]
 
 Options:
     -h --help                       Show this screen
     --version                       Show version
 
 Examples:
-    tudu create
-    tudu add Test todo 2018-05-16
-    tudu ls
-    tudu modify 1 Test tudu 2018-05-16 1
+    schema create
+    schema add Test todo 2018-05-16
+    schema ls
+    schema modify 1 Test schema 2018-05-16 1
 
 Help:
     https://github.com/Verssae/to_do_list_133
@@ -34,15 +34,15 @@ from . import __version__ as VERSION
 
 def main():
     """Main CLI entrypoint."""
-    import tudu.commands
+    import schema.commands
 
     options = docopt(__doc__, version=VERSION)
 
     # 인자 처리하는 부분
     for (k, v) in options.items():
-        if hasattr(tudu.commands, k) and v:
-            module = getattr(tudu.commands, k)
-            tudu.commands = getmembers(module, isclass)
-            command = [command[1] for command in tudu.commands if command[0] != 'Base'][0]
+        if hasattr(schema.commands, k) and v:
+            module = getattr(schema.commands, k)
+            schema.commands = getmembers(module, isclass)
+            command = [command[1] for command in schema.commands if command[0] != 'Base'][0]
             command = command(options)
             command.run()

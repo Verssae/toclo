@@ -1,6 +1,6 @@
 # to_do_list_133
 
-# tudu (temp name)
+# schema (temp name)
 
 * A todo list program in Python
 
