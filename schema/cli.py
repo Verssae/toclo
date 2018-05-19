@@ -7,9 +7,9 @@ Usage:
     schema -h | --help
     schema --version
     schema create
-    schema add [<what> <due>]
+    schema add <what> <due>
     schema ls
-    schema modify [<id> <mwhat> <mdue> <v>]
+    schema modify <id> <mwhat> <mdue> <v>
 
 Options:
     -h --help                       Show this screen
