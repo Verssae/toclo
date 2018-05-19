@@ -2,7 +2,7 @@ import sqlite3
 from .color import *
 
 def show():
-    conn = sqlite3.connect("lab.db")
+    conn = sqlite3.connect("Schedule.db")
     cur = conn.cursor()
     sql = "select * from todo where 1"
     cur.execute(sql)

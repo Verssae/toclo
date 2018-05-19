@@ -3,8 +3,15 @@ from .base import Base
 
 class Add(Base):
     def run(self):
-        conn = sqlite3.connect("lab.db")
+        conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
+
+        try:
+            cur.execute("select * from todo where 1")
+        except:
+            print("Warning : you must create Schedule.db first\n")
+            print("By using command 'schema -h' or 'schema --help' you can refer to doc")
+            exit()
 
         inputed_what = self.options['<what>']
         inputed_due = self.options['<due>']
