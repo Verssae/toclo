@@ -4,8 +4,13 @@ from .color import *
 def show():
     conn = sqlite3.connect("Schedule.db")
     cur = conn.cursor()
-    sql = "select * from todo where 1"
-    cur.execute(sql)
+    
+    try:
+        cur.execute("select * from todo where 1")
+    except:
+        print("Warning : you must create Schedule.db first\n")
+        print("By using command 'schema -h' or 'schema --help' you can refer to doc")
+        exit()
 
     rows = cur.fetchall()
 
