@@ -8,6 +8,13 @@ class Modify(Base):
 
         conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
+
+        try:
+            cur.execute("select * from todo where 1")
+        except:
+            print("Warning : you must create Schedule.db first\n")
+            print("By using command 'schema -h' or 'schema --help' you can refer to doc")
+            exit()
         
         modify_id = input("Record id? ") if self.options['<id>'] == None else self.options['<id>']
         modify_what = input("Todo? ") if self.options['<mwhat>'] == None else self.options['<mwhat>']
