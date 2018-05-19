@@ -1,5 +1,5 @@
 import sqlite3
-
+import re
 from .base import Base
 from .show import *
 
@@ -8,6 +8,9 @@ class Modify(Base):
 
         conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
+        p = re.compile("^([가-힣]|[a-zA-Z]|[0-9])*|-$")
+        q = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
+        v = re.compile("^0|1|-$")
 
         try:
             cur.execute("select * from todo where 1")
@@ -20,6 +23,19 @@ class Modify(Base):
         modify_what = self.options['<mwhat>']
         modify_due = self.options['<mdue>']
         modify_finished = self.options['<v>']
+        modify_what = p.match(modify_what)
+        modify_due = q.match(modify_due)
+        modify_finished = v.match(modify_finished)
+        if modify_what and modify_due and modify_finished:
+            modify_what = modify_what.group()
+            modify_due = modify_due.group()
+            modify_finished = modify_finished.group()
+        else:
+            print("Now allowed input data: ")
+            # print("You can wirte todo title to 15 length") 일단 한글 문제 때문에 입력 글자 수는 보류
+            print("You have to write due date such as 2018-05-05")
+            print("or x if you don't want to set due date")
+            exit()
 
         if modify_what == "-":
             if modify_due == "-":
