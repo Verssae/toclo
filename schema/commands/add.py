@@ -7,7 +7,7 @@ class Add(Base):
         conn = sqlite3.connect("Schedule.db")
         cur = conn.cursor()
         p = re.compile("^([가-힣]|[a-zA-Z]|[0-9])*$")
-        q = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|-$")
+        q = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x$")
 
         try:
             cur.execute("select * from todo where 1")
@@ -29,7 +29,7 @@ class Add(Base):
                 print("Now allowed input data: ")
                 # print("You can wirte todo title to 15 length") 일단 한글 문제 때문에 입력 글자 수는 보류
                 print("You have to write due date such as 2018-05-05")
-                print("or - if you don't want to set due date")
+                print("or x if you don't want to set due date")
 
 
         

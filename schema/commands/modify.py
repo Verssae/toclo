@@ -20,15 +20,25 @@ class Modify(Base):
         modify_what = self.options['<mwhat>']
         modify_due = self.options['<mdue>']
         modify_finished = self.options['<v>']
-        
-        insql = ""
-        insql += "what = '{}'".format(modify_what) +"," if modify_what != '-' else " "
-        insql += "due = '{}'".format(modify_due+",") if modify_due != '-' else " "
-        
-        insql += "finished = {}".format(modify_finished) if modify_finished != '-' else " "
-        # print(insql)
+
+        if modify_what == "-":
+            if modify_due == "-":
+                insql = "finished = {}".format(modify_finished) if modify_finished != '-' else ""
+            else:
+                insql = "due = '{}'".format(modify_due)
+                insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
+        else:
+            if modify_due == "-":
+                insql = "what = '{}'".format(modify_what)
+                insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
+            else:
+                insql = "what = '{}', due = '{}'".format(modify_what, modify_due)
+                insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
+        if insql == "":
+            show()
+            exit()
         sql = "UPDATE TODO set {} where id = {}".format(insql, modify_id)
-        print(sql)
+        
         # sql = "UPDATE TODO set what = '{}', due = '{}', finished = '{}' where id = '{}'".format(modify_what, modify_due, modify_finished, modify_id)
         cur.execute(sql)
         conn.commit()
