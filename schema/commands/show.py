@@ -1,8 +1,11 @@
 import sqlite3
+import getpass
 from .color import *
 
 def show():
-    conn = sqlite3.connect("Schedule.db")
+    username = getpass.getuser()
+        
+    conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
     cur = conn.cursor()
     
     try:

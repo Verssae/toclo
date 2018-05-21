@@ -1,10 +1,13 @@
 import sqlite3
 import re
+import getpass
 from .base import Base
 
 class Add(Base):
     def run(self):
-        conn = sqlite3.connect("Schedule.db")
+        username = getpass.getuser()
+        
+        conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
         cur = conn.cursor()
         p = re.compile("^([가-힣]|[a-zA-Z]|[0-9])*$")
         q = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x$")
