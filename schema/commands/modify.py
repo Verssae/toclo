@@ -1,21 +1,9 @@
-import sqlite3
-import re
-import getpass
 from .base import Base
-from .show import *
 
 class Modify(Base):
     def run(self):
-        username = getpass.getuser()
-        
-        conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
-        cur = conn.cursor()
-        p = re.compile("^([가-힣]|[a-zA-Z]|[0-9])*|-$")
-        q = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
-        v = re.compile("^0|1|-$")
-
         try:
-            cur.execute("select * from todo where 1")
+            self.cur.execute("select * from todo where 1")
         except:
             print("Warning : you must create Schedule.db first\n")
             print("By using command 'schema -h' or 'schema --help' you can refer to doc")
@@ -25,9 +13,11 @@ class Modify(Base):
         modify_what = self.options['<mwhat>']
         modify_due = self.options['<mdue>']
         modify_finished = self.options['<v>']
-        modify_what = p.match(modify_what)
-        modify_due = q.match(modify_due)
-        modify_finished = v.match(modify_finished)
+
+        modify_what = self.what_check.match(modify_what)
+        modify_due = self.due_check.match(modify_due)
+        modify_finished = self.fin_check.match(modify_finished)
+        
         if modify_what and modify_due and modify_finished:
             modify_what = modify_what.group()
             modify_due = modify_due.group()
@@ -53,11 +43,11 @@ class Modify(Base):
                 insql = "what = '{}', due = '{}'".format(modify_what, modify_due)
                 insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
         if insql == "":
-            show()
-            exit()
+            self.show()
+            return 
         sql = "UPDATE TODO set {} where id = {}".format(insql, modify_id)
         
         # sql = "UPDATE TODO set what = '{}', due = '{}', finished = '{}' where id = '{}'".format(modify_what, modify_due, modify_finished, modify_id)
-        cur.execute(sql)
-        conn.commit()
-        show()
+        self.cur.execute(sql)
+        self.conn.commit()
+        self.show()

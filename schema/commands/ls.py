@@ -1,11 +1,9 @@
 
 from .base import Base
-from .show import *
 
 class Ls(Base):
-    """asdf"""
-    
-    
+    """Show List"""
+
     def run(self):
-        show()
+        self.show()
 
