@@ -5,22 +5,25 @@ class Modify(Base):
         try:
             self.cur.execute("select * from todo where 1")
         except:
-            print("Warning : you must create Schedule.db first\n")
-            print("By using command 'schema -h' or 'schema --help' you can refer to doc")
-            exit()
+            self.create_db()
         
         modify_id = self.options['<id>']
         modify_what = self.options['<mwhat>']
+        
         modify_due = self.options['<mdue>']
         modify_finished = self.options['<v>']
 
-        modify_what = self.what_check.match(modify_what)
+        # modify_what = self.what_check.match(modify_what)
+        
         modify_due = self.due_check.match(modify_due)
+        
         modify_finished = self.fin_check.match(modify_finished)
         
         if modify_what and modify_due and modify_finished:
-            modify_what = modify_what.group()
+            # modify_what = modify_what.group()
+            
             modify_due = modify_due.group()
+            
             modify_finished = modify_finished.group()
         else:
             print("Now allowed input data: ")
@@ -42,9 +45,7 @@ class Modify(Base):
             else:
                 insql = "what = '{}', due = '{}'".format(modify_what, modify_due)
                 insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
-        if insql == "":
-            self.show()
-            return 
+        
         sql = "UPDATE TODO set {} where id = {}".format(insql, modify_id)
         
         # sql = "UPDATE TODO set what = '{}', due = '{}', finished = '{}' where id = '{}'".format(modify_what, modify_due, modify_finished, modify_id)
