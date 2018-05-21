@@ -9,19 +9,22 @@ class Modify(Base):
         
         modify_id = self.options['<id>']
         modify_what = self.options['<mwhat>']
-        
         modify_due = self.options['<mdue>']
         modify_finished = self.options['<v>']
 
-        # modify_what = self.what_check.match(modify_what)
+        what_val = modify_what
+        due_val = modify_due
+        finished_val = modify_finished
+
+        modify_what = self.what_check.match(modify_what)
         
         modify_due = self.due_check.match(modify_due)
         
         modify_finished = self.fin_check.match(modify_finished)
         
         if modify_what and modify_due and modify_finished:
-            # modify_what = modify_what.group()
-            
+            modify_what = modify_what.group()
+
             modify_due = modify_due.group()
             
             modify_finished = modify_finished.group()
@@ -32,19 +35,19 @@ class Modify(Base):
             print("or x if you don't want to set due date")
             exit()
 
-        if modify_what == "-":
-            if modify_due == "-":
-                insql = "finished = {}".format(modify_finished) if modify_finished != '-' else ""
+        if what_val == "-":
+            if due_val == "-":
+                insql = "finished = {}".format(modify_finished) if finished_val != '-' else ""
             else:
                 insql = "due = '{}'".format(modify_due)
-                insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
+                insql += ", finished = {}".format(modify_finished) if finished_val != '-' else ""
         else:
-            if modify_due == "-":
+            if due_val == "-":
                 insql = "what = '{}'".format(modify_what)
-                insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
+                insql += ", finished = {}".format(modify_finished) if finished_val != '-' else ""
             else:
                 insql = "what = '{}', due = '{}'".format(modify_what, modify_due)
-                insql += ", finished = {}".format(modify_finished) if modify_finished != '-' else ""
+                insql += ", finished = {}".format(modify_finished) if finished_val != '-' else ""
         
         sql = "UPDATE TODO set {} where id = {}".format(insql, modify_id)
         

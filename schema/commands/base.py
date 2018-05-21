@@ -13,7 +13,7 @@ class Base(object):
         username = getpass.getuser() + "/Documents"
         self.conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
         self.cur = self.conn.cursor()
-        # self.what_check = re.compile("^-|([가-힣]|[a-zA-Z]|[0-9])*$")
+        self.what_check = re.compile("^-|([가-힣]|[a-zA-Z]|[0-9])*$")
         self.due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
         self.fin_check = re.compile("^0|1|-$")
 
