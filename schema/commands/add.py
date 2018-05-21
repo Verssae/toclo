@@ -10,10 +10,14 @@ class Add(Base):
         inputed_what = self.options['<what>']
         inputed_date = self.options['<due>']
         if inputed_what and inputed_date:
+
+            date_verify = inputed_date
+
             inputed_what = self.what_check.match(inputed_what)
             inputed_date = self.due_check.match(inputed_date)
         
             if inputed_what and inputed_date:
+                self.date_verify(date_verify)
                 sql = "insert into todo (what, due, finished) values (?, ?, 0)"
                 self.cur.execute(sql,(inputed_what.group(), inputed_date.group()))
                 self.conn.commit()
