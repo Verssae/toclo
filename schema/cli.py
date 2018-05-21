@@ -6,7 +6,6 @@
 Usage:
     schema -h | --help
     schema --version
-    schema create
     schema add <what> <due>
     schema ls
     schema modify <id> <mwhat> <mdue> <v>
@@ -17,7 +16,6 @@ Options:
     --version                       Show version
 
 Examples:
-    schema create
     schema add Test todo 2018-05-16
     schema ls
     schema modify 1 Test schema 2018-05-16 1
@@ -39,6 +37,8 @@ def main():
     import schema.commands
 
     options = docopt(__doc__, version=VERSION)
+    
+    
 
     # 인자 처리하는 부분
     for (k, v) in options.items():
