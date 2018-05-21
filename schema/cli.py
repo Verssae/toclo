@@ -10,6 +10,7 @@ Usage:
     schema add <what> <due>
     schema ls
     schema modify <id> <mwhat> <mdue> <v>
+    schema delete <delid>
 
 Options:
     -h --help                       Show this screen
@@ -20,6 +21,7 @@ Examples:
     schema add Test todo 2018-05-16
     schema ls
     schema modify 1 Test schema 2018-05-16 1
+    schema delete 1
 
 Help:
     https://github.com/Verssae/to_do_list_133
