@@ -2,6 +2,7 @@
 import getpass
 import sqlite3
 import re
+import datetime
 from .color import *
 
 class Base(object):
@@ -15,9 +16,11 @@ class Base(object):
         username = getpass.getuser() + "/Documents"
         self.conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
         self.cur = self.conn.cursor()
+
         self.create_todo_table()
         self.create_category_table()
-        # self.what_check = re.compile("^-|([가-힣]|[a-zA-Z]|[0-9])*$")
+
+        self.what_check = re.compile("^-|([가-힣]|[a-zA-Z]|[0-9])*$")
         self.due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
         self.fin_check = re.compile("^0|1|-$")
 
@@ -27,7 +30,7 @@ class Base(object):
     def check_input(self):
         "입력값이 올바른지 검사"
         pass
-    
+
     def add_todo(self, what, due, category):
         if not self.check_category(category):
             self.add_category(category)
@@ -38,7 +41,7 @@ class Base(object):
         )
         self.cur.execute(sql)
         self.conn.commit()
-    
+
     def check_category(self, input_category):
         sql = "select * from '{}' where category='{}'".format(
             self.category_name,
@@ -50,25 +53,25 @@ class Base(object):
             return False
         return True
 
-    
+
     def add_category(self, new_category):
         sql = "insert into '{}' (category) values ('{}')".format(
             self.category_name,
             new_category
         )
-    
+
     def remove_row(self, table_name, id):
         sql = "DELETE FROM '{}' WHERE id={}".format(table_name, id)
         self.cur.execute(sql)
-        self.conn.commit() 
-    
+        self.conn.commit()
+
     def get_max_column(self,columns):
         return max(map(get_width,columns))
 
     def show_all(self):
         self.cur.execute("select * from todo where 1")
         rows = self.cur.fetchall()
-        id_max = 3 
+        id_max = 3
         whats = ["Todo"]
         dues = ["Due"]
         categories = ["Category"]
@@ -80,17 +83,17 @@ class Base(object):
         due_max = self.get_max_column(dues)
         category_max = self.get_max_column(categories)
         fin_max = 3
-        
+
         print("┌",end="")
-        print("─"* id_max,end="") 
+        print("─"* id_max,end="")
         print("┬",end="")
-        print("─"* what_max,end="") 
+        print("─"* what_max,end="")
         print("┬",end="")
-        print("─"* due_max,end="") 
+        print("─"* due_max,end="")
         print("┬",end="")
-        print("─"* category_max,end="") 
+        print("─"* category_max,end="")
         print("┬",end="")
-        print("─"* fin_max,end="") 
+        print("─"* fin_max,end="")
         print("┐")
 
         print('│',end="")
@@ -106,15 +109,15 @@ class Base(object):
         print('│')
 
         print("├",end="")
-        print("─"* id_max,end="") 
+        print("─"* id_max,end="")
         print("┼",end="")
-        print("─"* what_max,end="") 
+        print("─"* what_max,end="")
         print("┼",end="")
-        print("─"* due_max,end="") 
+        print("─"* due_max,end="")
         print("┼",end="")
-        print("─"* category_max,end="") 
+        print("─"* category_max,end="")
         print("┼",end="")
-        print("─"* fin_max,end="") 
+        print("─"* fin_max,end="")
         print("┤")
         # print("└",end="")
         # print("┘")
@@ -135,22 +138,22 @@ class Base(object):
             print('│')
 
         print("└",end="")
-        print("─"* id_max,end="") 
+        print("─"* id_max,end="")
         print("┴",end="")
-        print("─"* what_max,end="") 
+        print("─"* what_max,end="")
         print("┴",end="")
-        print("─"* due_max,end="") 
+        print("─"* due_max,end="")
         print("┴",end="")
-        print("─"* category_max,end="") 
+        print("─"* category_max,end="")
         print("┴",end="")
-        print("─"* fin_max,end="") 
+        print("─"* fin_max,end="")
         print("┘")
-    
+
     def delete(self):
         id = self.options['<delid>']
         self.remove_row(self.table_name,id)
         self.show_all()
-    
+
     def create_todo_table(self):
         sql = """create table if not exists '{}' (
         id integer primary key autoincrement,
@@ -161,7 +164,7 @@ class Base(object):
 
         self.cur.execute(sql)
         self.conn.commit()
-    
+
     def create_category_table(self):
         sql = """create table if not exists '{}' (
             id integer primary key autoincrement,
@@ -169,3 +172,10 @@ class Base(object):
         );""".format(self.category_name)
         self.cur.execute(sql)
         self.conn.commit()
+
+    def date_verify(self, date_str):
+        try:
+            _ = datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10]))
+        except ValueError:
+            print("Warning : Invalid date input")
+            exit()
