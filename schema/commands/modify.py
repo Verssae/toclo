@@ -51,4 +51,4 @@ class Modify(Base):
         # sql = "UPDATE TODO set what = '{}', due = '{}', finished = '{}' where id = '{}'".format(modify_what, modify_due, modify_finished, modify_id)
         self.cur.execute(sql)
         self.conn.commit()
-        self.show()
+        self.show_all()

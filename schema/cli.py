@@ -6,7 +6,7 @@
 Usage:
     schema -h | --help
     schema --version
-    schema add <what> <due>
+    schema add <what> <due> <category>
     schema ls
     schema modify <id> <mwhat> <mdue> <v>
     schema delete <delid>

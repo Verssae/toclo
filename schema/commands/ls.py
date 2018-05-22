@@ -5,5 +5,5 @@ class Ls(Base):
     """Show List"""
 
     def run(self):
-        self.show()
+        self.show_all()
 
