@@ -23,6 +23,7 @@ class Modify(Base):
         modify_finished = self.fin_check.match(modify_finished)
         
         if modify_what and modify_due and modify_finished:
+            self.date_verify(due_val)
             modify_what = modify_what.group()
 
             modify_due = modify_due.group()

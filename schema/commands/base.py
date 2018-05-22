@@ -2,6 +2,7 @@
 import getpass
 import sqlite3
 import re
+import datetime
 from .color import *
 
 class Base(object):
@@ -68,3 +69,10 @@ class Base(object):
 
         self.cur.execute(table_create_sql)
         self.conn.commit()
+
+    def date_verify(self, date_str):
+        try:
+            _ = datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10]))
+        except ValueError:
+            print("Warning : Invalid date input")
+            exit()
