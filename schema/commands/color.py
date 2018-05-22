@@ -5,14 +5,40 @@ from colorama import init
 from colorama import Fore, Back, Style
 init()
  
-def preformat_cjk (string, width, align='<', fill=' '):
+def preformats(string, width, align='<', fill=' '):
     # refer from : https://sarc.io/index.php/development/810-python-print-format-padding
     # use it instead of '.format()'
-    count = (width - sum(1 + (unicodedata.east_asian_width(c) in "WF") for c in string))
+    count = width - get_width(string)
+    
     return {'>': lambda s: fill * count + s,
         '<': lambda s: s + fill * count,
-        '^': lambda s: fill * (count / 2) + s + fill * (count / 2 + count % 2) }[align](string)
-    
+        '^': lambda s: fill * int(count / 2) + s + fill * int(count / 2 + count % 2) }[align](string)
+
+def get_width(s):
+    s = str(s)
+    s_width = 0
+
+    for c in s:
+        c_ord = ord(c)
+        if (
+            (ord('A') <= c_ord <= ord('Z')) or
+            (ord('a') <= c_ord <= ord('z')) or
+            (ord('0') <= c_ord <= ord('9')) or
+            (c in " !?()_-+=@#$%^&*\\/<>,.")
+        ):
+            s_width += 1
+        elif (
+            (ord('ㄱ') <= c_ord <= ord('ㅣ')) or
+            (ord('가') <= c_ord <= ord('ퟻ'))
+        ):
+            s_width += 2
+            
+        else:
+            return None
+        
+
+    return s_width    
+
 def print_red(message, end = ''):
     print(Fore.RED + message,end=end)
 

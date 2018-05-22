@@ -2,10 +2,6 @@ from .base import Base
 
 class Modify(Base):
     def run(self):
-        try:
-            self.cur.execute("select * from todo where 1")
-        except:
-            self.create_db()
         
         modify_id = self.options['<id>']
         modify_what = self.options['<mwhat>']
@@ -55,4 +51,4 @@ class Modify(Base):
         # sql = "UPDATE TODO set what = '{}', due = '{}', finished = '{}' where id = '{}'".format(modify_what, modify_due, modify_finished, modify_id)
         self.cur.execute(sql)
         self.conn.commit()
-        self.show()
+        self.show(None, 0)
