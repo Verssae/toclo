@@ -68,8 +68,19 @@ class Base(object):
     def get_max_column(self,columns):
         return max(map(get_width,columns))
 
-    def show_all(self):
-        self.cur.execute("select * from todo where 1")
+    def show(self, category=None, done=None):
+        # done :== 0 | 1
+        if category == None:
+            if done == None:
+                sql = "select * from '{}' where 1".format(self.table_name)
+            else:
+                sql = "select * from '{}' where finished={}".format(self.table_name, done)
+        else:
+            if done == None:
+                sql = "select * from '{}' where category='{}'".format(self.table_name, category)
+            else:
+                sql = "select * from '{}' where category='{}' and finished={}".format(self.table_name, category, done)
+        self.cur.execute(sql)
         rows = self.cur.fetchall()
         id_max = 3
         whats = ["Todo"]
@@ -148,11 +159,12 @@ class Base(object):
         print("┴",end="")
         print("─"* fin_max,end="")
         print("┘")
+    
 
     def delete(self):
         id = self.options['<delid>']
         self.remove_row(self.table_name,id)
-        self.show_all()
+        self.show()
 
     def create_todo_table(self):
         sql = """create table if not exists '{}' (
@@ -177,5 +189,8 @@ class Base(object):
         try:
             _ = datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10]))
         except ValueError:
-            print("Warning : Invalid date input")
-            exit()
+            if date_str == 'x' or date_str == '-':
+                return True
+            else:
+                print("Warning : Invalid date input")
+                exit()

@@ -1,15 +1,16 @@
 """
-┌───────────────────┐
+┌─────────────────────┐
 │schema: the Todo List│
-└───────────────────┘
+└─────────────────────┘
 
 Usage:
     schema -h | --help
     schema --version
     schema add <what> <due> <category>
-    schema ls
+    schema ls [<ctgr>]
     schema modify <id> <mwhat> <mdue> <v>
     schema delete <delid>
+    schema complete <completeid>
 
 Options:
     -h --help                       Show this screen
@@ -37,6 +38,7 @@ def main():
     import schema.commands
 
     options = docopt(__doc__, version=VERSION)
+    print(options)
     
     
 
