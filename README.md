@@ -7,7 +7,7 @@
 * to install, after clone it, :
 
   ```
-  $ pip install -e .[test]
+  $ pip install -e 
   ```
 
   dev

@@ -1,9 +1,9 @@
 """Packaging settings."""
 
 
-from codecs import open
+# from codecs import open
 from os.path import abspath, dirname, join
-from subprocess import call
+
 
 from setuptools import Command, find_packages, setup
 
@@ -11,41 +11,24 @@ from schema import __version__
 
 
 this_dir = abspath(dirname(__file__))
-with open(join(this_dir, 'README.rst'), encoding='utf-8') as file:
-    long_description = file.read()
-
-
-class RunTests(Command):
-    """Run all tests."""
-    description = 'run tests'
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        """Run all tests!"""
-        errno = call(['py.test', '--cov=skele', '--cov-report=term-missing'])
-        raise SystemExit(errno)
-
+# with open(join(this_dir, 'README.rst'), encoding='utf-8') as file:
+#     long_description = file.read()
 
 setup(
     name = 'schema',
     version = __version__,
     description = 'A todo list command line program in Python.',
-    long_description = long_description,
-    url = 'https://github.com/rdegges/skele-cli',
-    author = 'Hansae Ju',
+    # long_description = long_description,
+    url = "https://github.com/Verssae/to_do_list_133",
+    download_url = 'https://github.com/Verssae/to_do_list_133.git',
+    author = 'Verssae',
     author_email = 'sparky@hanynag.ac.kr',
-    license = 'UNLICENSE',
+    license = 'MIT',
     classifiers = [
-        'Intended Audience :: Developers',
-        'Topic :: Utilities',
-        'License :: Public Domain',
-        'Natural Language :: English',
+        # 'Intended Audience :: Developers',
+        # 'Topic :: Utilities',
+        # 'License :: Public Domain',
+        # 'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
@@ -55,16 +38,14 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    keywords = 'cli',
-    packages = find_packages(exclude=['docs', 'tests*']),
+    keywords = 'todolist',
+    packages = find_packages(exclude=['docs']),
     install_requires = ['docopt','colorama'],
-    extras_require = {
-        'test': ['coverage', 'pytest', 'pytest-cov'],
-    },
+    
     entry_points = {
         'console_scripts': [
             'schema=schema.cli:main',
         ],
-    },
-    cmdclass = {'test': RunTests},
+    }
+    
 )
