@@ -6,11 +6,11 @@
 Usage:
     toclo -h | --help
     toclo --version
-    toclo add <what> <due> [<category>]
+    toclo add <what> <due> [<ctgr>]
     toclo ls [<ctgr>]
-    toclo modify <id> <mwhat> <mdue> <v>
-    toclo delete <delid>
-    toclo complete <completeid>
+    toclo modify <id> <what> <due> <ctgr> <v>
+    toclo delete <id>
+    toclo complete <id>
 
 Options:
     -h --help                       Show this screen
@@ -37,6 +37,7 @@ def main():
     """Main CLI entrypoint."""
     import toclo.commands
     options = docopt(__doc__, version=VERSION)
+    print(options)
 
     for (k, v) in options.items():
         if hasattr(toclo.commands, k) and v:

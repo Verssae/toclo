@@ -12,7 +12,7 @@ class Base(object):
 
     def __init__(self, options):
         self.options = options
-        #create DB
+
         username = getpass.getuser() + "/Documents"
         self.conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
         self.cur = self.conn.cursor()
@@ -20,26 +20,70 @@ class Base(object):
         self.create_todo_table()
         self.create_category_table()
 
-        self.what_check = re.compile("^-|([가-힣]|[a-zA-Z]|[0-9])*$")
-        self.due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
-        self.fin_check = re.compile("^0|1|-$")
+        self.add_category("")
 
     def run(self):
         raise NotImplementedError('You must implement the run() method yourself!')
 
-    def check_input(self):
-        "입력값이 올바른지 검사"
-        pass
+    def check_input(self, option = 0):
+        due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
+        v_check = re.compile("^0|1|-$")
+        due = self.options['<due>']
+        v = self.options["<v>"]
+        ctgr = self.options['<ctgr>']
+        if not ctgr:
+            ctgr= ""
 
-    def add_todo(self, what, due, category=None):
-        if not category:
-            category = ""
-        elif not self.check_category(category):
-            self.add_category(category)
-            print("New category is added: {}".format(category))
-        sql = "insert into '{}' (what, due, category, finished) values ('{}', '{}', '{}', {})".format(
+        if option == 0: # check due
+            if due_check.match(due):
+                if not self.check_category(ctgr):
+                    self.add_category(ctgr)
+                return self.date_verify(due)
+            else:
+                return False
+        elif option == 1: # check due, v
+            if due_check.match(due) and v_check.match(v):
+                if not self.check_category(ctgr):
+                    self.add_category(ctgr)
+                return self.date_verify(due)
+            else:
+                return False
+
+    def add_todo(self):
+        what = self.options['<what>']
+        ctgr = self.options['<ctgr>']
+        due = self.options['<due>']
+        if not ctgr:
+            ctgr= ""
+
+        sql = "insert into '{0}' (what, due, category, finished) values ('{1}', '{2}', '{3}', {4})".format(
             self.table_name,
-            what, due, category, 0
+            what, due, ctgr, 0
+        )
+        self.cur.execute(sql)
+        self.conn.commit()
+    
+    def check_ignore(self, i):
+        args = [self.options['<what>'], self.options['<due>'], self.options['<ctgr>'], self.options['<v>']]
+        return args[i] == "-"
+  
+    def update_todo(self, i):
+        id = self.options['<id>']
+        args = [self.options['<what>'], self.options['<due>'], self.options['<ctgr>'], self.options['<v>']]
+
+        if i == 0:
+            insql = "what='{}'".format(args[0])
+        if i == 1:
+            insql = "due='{}'".format(args[1])
+        if i == 2:
+            insql = "category='{}'".format(args[2])
+        if i == 3:
+            insql = "finished={}".format(args[3])
+        
+        sql = "UPDATE {0} set {1} where id={2}".format(
+            self.table_name,
+            insql,
+            id
         )
         self.cur.execute(sql)
         self.conn.commit()
@@ -54,7 +98,6 @@ class Base(object):
         except:
             return False
         return True
-
 
     def add_category(self, new_category):
         sql = "insert into '{}' (category) values ('{}')".format(
@@ -162,9 +205,8 @@ class Base(object):
         print("─"* fin_max,end="")
         print("┘")
     
-
     def delete(self):
-        id = self.options['<delid>']
+        id = self.options['<id>']
         self.remove_row(self.table_name,id)
         self.show()
 
@@ -190,9 +232,9 @@ class Base(object):
     def date_verify(self, date_str):
         try:
             _ = datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10]))
+            return True
         except ValueError:
             if date_str == 'x' or date_str == '-':
                 return True
             else:
-                print("Warning : Invalid date input")
-                exit()
+                return False
