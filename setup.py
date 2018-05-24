@@ -7,7 +7,7 @@ from os.path import abspath, dirname, join
 
 from setuptools import Command, find_packages, setup
 
-from schema import __version__
+from toclo import __version__
 
 
 this_dir = abspath(dirname(__file__))
@@ -15,12 +15,12 @@ this_dir = abspath(dirname(__file__))
 #     long_description = file.read()
 
 setup(
-    name = 'schema',
+    name = 'toclo',
     version = __version__,
     description = 'A todo list command line program in Python.',
     # long_description = long_description,
-    url = "https://github.com/Verssae/to_do_list_133",
-    download_url = 'https://github.com/Verssae/to_do_list_133.git',
+    url = "https://github.com/Verssae/toclo",
+    download_url = 'https://github.com/Verssae/toclo.git',
     author = 'Verssae',
     author_email = 'sparky@hanynag.ac.kr',
     license = 'MIT',
@@ -44,7 +44,7 @@ setup(
     
     entry_points = {
         'console_scripts': [
-            'schema=schema.cli:main',
+            'toclo=toclo.cli:main',
         ],
     }
     

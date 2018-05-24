@@ -1,14 +1,10 @@
-# to_do_list_133
 
-# schema (temp name)
+# toclo
 
-* A todo list program in Python
-
-* to install, after clone it, :
+* A todo list cli program in python
 
   ```
-  $ pip install -e 
+  $ pip install toclo
   ```
 
-  dev
 
