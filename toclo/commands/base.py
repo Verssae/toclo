@@ -31,8 +31,10 @@ class Base(object):
         "입력값이 올바른지 검사"
         pass
 
-    def add_todo(self, what, due, category):
-        if not self.check_category(category):
+    def add_todo(self, what, due, category=None):
+        if not category:
+            category = ""
+        elif not self.check_category(category):
             self.add_category(category)
             print("New category is added: {}".format(category))
         sql = "insert into '{}' (what, due, category, finished) values ('{}', '{}', '{}', {})".format(

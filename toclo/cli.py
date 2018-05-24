@@ -6,7 +6,7 @@
 Usage:
     toclo -h | --help
     toclo --version
-    toclo add <what> <due> <category>
+    toclo add <what> <due> [<category>]
     toclo ls [<ctgr>]
     toclo modify <id> <mwhat> <mdue> <v>
     toclo delete <delid>
@@ -23,7 +23,7 @@ Examples:
     toclo delete 1
 
 Help:
-    https://github.com/Verssae/to_do_list_133
+    https://github.com/Verssae/toclo
 """
 
 from inspect import getmembers, isclass
@@ -36,13 +36,8 @@ from . import __version__ as VERSION
 def main():
     """Main CLI entrypoint."""
     import toclo.commands
-
     options = docopt(__doc__, version=VERSION)
-    print(options)
-    
-    
 
-    # 인자 처리하는 부분
     for (k, v) in options.items():
         if hasattr(toclo.commands, k) and v:
             module = getattr(toclo.commands, k)
