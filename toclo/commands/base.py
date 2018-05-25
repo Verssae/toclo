@@ -4,6 +4,9 @@ import sqlite3
 import re
 import datetime
 from .color import *
+from colorama import init
+from colorama import Fore, Back, Style
+# init()
 
 class Base(object):
     """A base command."""
@@ -180,18 +183,25 @@ class Base(object):
         # print("┴",end="")
 
         for row in rows:
-
+            
             print('│',end="")
-            print(preformats(str(row[0]),id_max,'^'),end="")
+            if row[4] == 1:
+                print(Fore.BLACK+Back.WHITE+Style.BRIGHT+preformats(str(row[0]),id_max,'^'),end="")
+            else:
+                print(preformats(str(row[0]),id_max,'^'),end="")
             print('│',end="")
             print(preformats(row[1],what_max,'^'),end="")
             print('│',end="")
-            print(preformats(row[2],due_max,'^'),end="")
+            print(preformats(row[2] if row[2] != 'x' else "",due_max,'^'),end="")
             print('│',end="")
             print(preformats(row[3],category_max,'^'),end="")
             print('│',end="")
             print(preformats(str(row[4]),fin_max,'^'),end="")
-            print('│')
+            
+            if row[4] == 1:
+                print(Style.RESET_ALL+'│')
+            else:
+                print('│')
 
         print("└",end="")
         print("─"* id_max,end="")
@@ -229,6 +239,11 @@ class Base(object):
         self.cur.execute(sql)
         self.conn.commit()
 
+    def drop_table(self, name):
+        sql = """DROP TABLE '{}'""".format(name)
+        self.cur.execute(sql)
+        self.conn.commit()
+
     def date_verify(self, date_str):
         try:
             _ = datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10]))
@@ -238,3 +253,8 @@ class Base(object):
                 return True
             else:
                 return False
+
+"""
+3 x 10 y 3 6 = 22 + x + y >= 33
+x >= 4 y >= 7
+"""

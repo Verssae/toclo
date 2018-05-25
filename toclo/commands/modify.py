@@ -11,4 +11,4 @@ class Modify(Base):
             print("You have to write due date such as 2018-05-05")
             print("or x if you don't want to set due date")
 
-        self.show(None, 0)
+        self.show()

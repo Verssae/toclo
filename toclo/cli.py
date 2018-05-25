@@ -37,7 +37,7 @@ def main():
     """Main CLI entrypoint."""
     import toclo.commands
     options = docopt(__doc__, version=VERSION)
-    print(options)
+    
 
     for (k, v) in options.items():
         if hasattr(toclo.commands, k) and v:
