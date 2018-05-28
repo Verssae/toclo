@@ -8,6 +8,6 @@ class Ls(Base):
         if self.options['<ctgr>'] == "done":
             self.show(None, 1)
         else:
-            self.show()
+            self.show(self.options['<ctgr>'])
         
 

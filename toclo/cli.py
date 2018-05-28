@@ -4,11 +4,11 @@
 └────────────────────┘
 
 Usage:
-    toclo -h | --help
+    toclo -h | --help               
     toclo --version
-    toclo add <what> <due> [<ctgr>]
-    toclo ls [<ctgr>]
-    toclo modify <id> <what> <due> <ctgr> <v>
+    toclo add <what> <due> [<ctgr>]     
+    toclo ls [<ctgr>]                    
+    toclo modify <id> <what> <due> <ctgr> <v>    
     toclo delete <id>
     toclo complete <id>
 
