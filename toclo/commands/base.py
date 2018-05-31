@@ -3,6 +3,8 @@ import getpass
 import sqlite3
 import re
 import datetime
+import os
+import platform
 from .functions import *
 from colorama import init
 from colorama import Fore, Back, Style
@@ -24,6 +26,11 @@ class Base(object):
         self.create_category_table()
 
         self.add_category("")
+        if platform.system() == "Windows":
+            clear = lambda: os.system('cls')
+        else:
+            clear = lambda: os.system('clear')
+        clear()
 
     def run(self):
         raise NotImplementedError('You must implement the run() method yourself!')
@@ -206,9 +213,9 @@ class Base(object):
         # print("┴",end="")
 
         for row in rows:
-            
+            today = datetime.datetime.today()
             print('│',end="")
-            if row[4] == 1:
+            if row[2] != 'x' and datetime.datetime(int(row[2][0:4]),int(row[2][5:7]), int(row[2][8:10])) < today:
                 print(Fore.BLACK+Back.WHITE+Style.BRIGHT+preformats(str(row[0]),id_max,'^'),end="")
             else:
                 print(preformats(str(row[0]),id_max,'^'),end="")
@@ -221,10 +228,8 @@ class Base(object):
             print('│',end="")
             print(preformats("V" if row[4] == 1 else "",fin_max,'^'),end="")
             
-            if row[4] == 1:
-                print(Style.RESET_ALL+'│')
-            else:
-                print('│')
+            print(Style.RESET_ALL+'│')
+            
 
         print("└",end="")
         print("─"* id_max,end="")
@@ -245,17 +250,18 @@ class Base(object):
 
     def print_today(self):
         today = datetime.datetime.today()
+        length = get_width(today.strftime("%A, %d %B")) 
         print("┌",end="")
-        print("─"* 21,end="")
+        print("─"* (length+7),end="")
         print("┐")
 
         print('│',end="")
         print("Today: ",end="")
-        print(preformats(today.strftime("%A, %d %B"),10,'^'),end="")
+        print(preformats(today.strftime("%A, %d %B"),length,'^'),end="")
         print('│')
 
         print("└",end="")
-        print("─"* 21,end="")
+        print("─"* (length+7),end="")
         print("┘")
 
     def create_todo_table(self):
