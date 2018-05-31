@@ -3,10 +3,12 @@ import getpass
 import sqlite3
 import re
 import datetime
-from .color import *
+import os
+import platform
+from .functions import *
 from colorama import init
 from colorama import Fore, Back, Style
-# init()
+init()
 
 class Base(object):
     """A base command."""
@@ -16,20 +18,25 @@ class Base(object):
     def __init__(self, options):
         self.options = options
 
-        username = getpass.getuser() + "/Documents"
-        self.conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
+        username = getpass.getuser() 
+        self.conn = sqlite3.connect("/Users/"+username+"/schedule.db")
         self.cur = self.conn.cursor()
 
         self.create_todo_table()
         self.create_category_table()
 
         self.add_category("")
+        if platform.system() == "Windows":
+            clear = lambda: os.system('cls')
+        else:
+            clear = lambda: os.system('clear')
+        clear()
 
     def run(self):
         raise NotImplementedError('You must implement the run() method yourself!')
 
     def check_input(self, option = 0):
-        due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-$")
+        due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-|[0-7]$")
         v_check = re.compile("^0|1|-$")
         due = self.options['<due>']
         v = self.options["<v>"]
@@ -51,13 +58,34 @@ class Base(object):
                 return self.date_verify(due)
             else:
                 return False
-
-    def add_todo(self):
+    
+    def get_args(self):
         what = self.options['<what>']
         ctgr = self.options['<ctgr>']
         due = self.options['<due>']
+        v = self.options["<v>"]
         if not ctgr:
             ctgr= ""
+        try:
+            if 0 <= int(due) <= 7:
+                today = datetime.datetime.today()
+                max_day = today.max.day
+                max_month = today.max.month
+                delta = max_day - today.day
+                if int(due) > delta:
+                    delta = int(due) - delta
+                    if today.month == max_month:
+                        due = today.replace(year=today.year+1, month=1, day=delta)
+                    else:
+                        due = today.replace(month=today.month+1, day=delta)
+                else:
+                    due = today.replace(day=today.day+int(due))
+        except:
+            pass
+        return (what, due, ctgr, v)
+
+    def add_todo(self):
+        what, due, ctgr, v = self.get_args()
 
         sql = "insert into '{0}' (what, due, category, finished) values ('{1}', '{2}', '{3}', {4})".format(
             self.table_name,
@@ -65,24 +93,20 @@ class Base(object):
         )
         self.cur.execute(sql)
         self.conn.commit()
-    
-    def check_ignore(self, i):
-        args = [self.options['<what>'], self.options['<due>'], self.options['<ctgr>'], self.options['<v>']]
-        return args[i] == "-"
   
-    def update_todo(self, i):
+    def update_todo(self):
         id = self.options['<id>']
-        args = [self.options['<what>'], self.options['<due>'], self.options['<ctgr>'], self.options['<v>']]
-
-        if i == 0:
-            insql = "what='{}'".format(args[0])
-        if i == 1:
-            insql = "due='{}'".format(args[1])
-        if i == 2:
-            insql = "category='{}'".format(args[2])
-        if i == 3:
-            insql = "finished={}".format(args[3])
-        
+        s = []
+        what, due, ctgr, v = self.get_args()
+        if what != "-":
+            s.append("what = '{}'".format(what))
+        if due != "-":
+            s.append("due = '{}'".format(due))
+        if ctgr != "-":
+            s.append("category = '{}'".format(ctgr))
+        if v != "-":
+            s.append("finished = {}".format(v))
+        insql = ",".join(s)
         sql = "UPDATE {0} set {1} where id={2}".format(
             self.table_name,
             insql,
@@ -130,18 +154,24 @@ class Base(object):
                 sql = "select * from '{}' where category='{}' and finished={}".format(self.table_name, category, done)
         self.cur.execute(sql)
         rows = self.cur.fetchall()
+        
         id_max = 3
         whats = ["Todo"]
         dues = ["Due"]
         categories = ["Category"]
         for row in rows:
             whats.append(row[1])
-            dues.append(row[2])
+            if row[2] != "x":
+                dues.append(self.regular_date(row[2]))
+            else:
+                dues.append(row[2])
             categories.append(row[3])
         what_max = self.get_max_column(whats)
         due_max = self.get_max_column(dues)
         category_max = self.get_max_column(categories)
         fin_max = 3
+
+        self.print_today()
 
         print("┌",end="")
         print("─"* id_max,end="")
@@ -183,25 +213,23 @@ class Base(object):
         # print("┴",end="")
 
         for row in rows:
-            
+            today = datetime.datetime.today()
             print('│',end="")
-            if row[4] == 1:
+            if row[2] != 'x' and datetime.datetime(int(row[2][0:4]),int(row[2][5:7]), int(row[2][8:10])) < today:
                 print(Fore.BLACK+Back.WHITE+Style.BRIGHT+preformats(str(row[0]),id_max,'^'),end="")
             else:
                 print(preformats(str(row[0]),id_max,'^'),end="")
             print('│',end="")
             print(preformats(row[1],what_max,'^'),end="")
             print('│',end="")
-            print(preformats(row[2] if row[2] != 'x' else "",due_max,'^'),end="")
+            print(preformats(self.regular_date(row[2]) if row[2] != 'x' else "",due_max,'^'),end="")
             print('│',end="")
             print(preformats(row[3],category_max,'^'),end="")
             print('│',end="")
-            print(preformats(str(row[4]),fin_max,'^'),end="")
+            print(preformats("V" if row[4] == 1 else "",fin_max,'^'),end="")
             
-            if row[4] == 1:
-                print(Style.RESET_ALL+'│')
-            else:
-                print('│')
+            print(Style.RESET_ALL+'│')
+            
 
         print("└",end="")
         print("─"* id_max,end="")
@@ -219,6 +247,22 @@ class Base(object):
         id = self.options['<id>']
         self.remove_row(self.table_name,id)
         self.show()
+
+    def print_today(self):
+        today = datetime.datetime.today()
+        length = get_width(today.strftime("%A, %d %B")) 
+        print("┌",end="")
+        print("─"* (length+7),end="")
+        print("┐")
+
+        print('│',end="")
+        print("Today: ",end="")
+        print(preformats(today.strftime("%A, %d %B"),length,'^'),end="")
+        print('│')
+
+        print("└",end="")
+        print("─"* (length+7),end="")
+        print("┘")
 
     def create_todo_table(self):
         sql = """create table if not exists '{}' (
@@ -249,12 +293,10 @@ class Base(object):
             _ = datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10]))
             return True
         except ValueError:
-            if date_str == 'x' or date_str == '-':
+            if date_str == 'x' or date_str == '-' or date_str in map(str,range(0,8)):
                 return True
             else:
                 return False
-
-"""
-3 x 10 y 3 6 = 22 + x + y >= 33
-x >= 4 y >= 7
-"""
+    
+    def regular_date(self, date_str):
+        return datetime.datetime(int(date_str[0:4]), int(date_str[5:7]), int(date_str[8:10])).strftime("%a, %d %B")

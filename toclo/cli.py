@@ -4,12 +4,12 @@
 └────────────────────┘
 
 Usage:
-    toclo -h | --help
+    toclo -h | --help               
     toclo --version
-    toclo add <what> <due> [<ctgr>]
-    toclo ls [<ctgr>]
-    toclo modify <id> <what> <due> <ctgr> <v>
-    toclo delete <id>
+    toclo add <what> <due> [<ctgr>]     
+    toclo ls [<ctgr> <done>]                     
+    toclo modify <id> <what> <due> <ctgr> <v>    
+    toclo delete (<id> | <all>) 
     toclo complete <id>
 
 Options:
@@ -37,6 +37,7 @@ def main():
     """Main CLI entrypoint."""
     import toclo.commands
     options = docopt(__doc__, version=VERSION)
+    print(options)
     
 
     for (k, v) in options.items():
