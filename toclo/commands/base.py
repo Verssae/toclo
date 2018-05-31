@@ -4,6 +4,7 @@ import sqlite3
 import re
 import datetime
 import os
+import platform
 from .functions import *
 from colorama import init
 from colorama import Fore, Back, Style
@@ -25,7 +26,10 @@ class Base(object):
         self.create_category_table()
 
         self.add_category("")
-        clear = lambda: os.system('clear')
+        if platform.system() == "Windows":
+            clear = lambda: os.system('cls')
+        else:
+            clear = lambda: os.system('clear')
         clear()
 
     def run(self):
