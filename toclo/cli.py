@@ -4,25 +4,28 @@
 └────────────────────┘
 
 Usage:
-    toclo -h | --help               
-    toclo --version
-    toclo add <what> <due> [<ctgr>]     
-    toclo ls [<ctgr> <done>]                     
-    toclo modify <id> <what> <due> <ctgr> <v>    
-    toclo delete (<id> | <all>) 
-    toclo complete <id>
+    toclo -h | --help                             
+    toclo --version                             
+    toclo add <what> <due> [<ctgr>]             
+    toclo ls [<ctgr> <done>]                    
+    toclo modify <id> <what> <due> <ctgr> <v>   
+    toclo delete (<id> | <all>)                 
+    toclo complete <id>                         
 
 Options:
     -h --help                       Show this screen
     --version                       Show version
 
 Examples:
-    toclo add Test todo 2018-05-16
+    toclo add "Study Hard" todo 2018-05-16 study
     toclo ls
-    toclo modify 1 Test toclo 2018-05-16 1
+    toclo modify 1 "Study not hard" - - -
+    toclo complete 1
     toclo delete 1
 
 Help:
+    '-' : don't change
+    <due>: 'YYYY-MM-DD' | [0~7] | 'x'(no due date)
     https://github.com/Verssae/toclo
 """
 
@@ -37,7 +40,6 @@ def main():
     """Main CLI entrypoint."""
     import toclo.commands
     options = docopt(__doc__, version=VERSION)
-    print(options)
     
 
     for (k, v) in options.items():

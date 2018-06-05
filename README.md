@@ -1,6 +1,8 @@
 # Introduction : toclo
 - toclo is a command line program which is about managing our schedule.
 
+  It's name 'toclo' means 'todo'. (cl = d)
+
   You can manage your schedule such as adding, modifying, searching your schedule by entering some commands that this program offers you.
 
   This program is developed based on Python 3 and is easily available to anyone
@@ -12,7 +14,7 @@
 
 # Requirements
 - This program needs:
-  - Python 3
+  - Python 3.x
   - Windows, Linux, Mac OS X
 
 # Installation
@@ -47,12 +49,15 @@
       Format : `toclo add <what> <due> [<category>]`
 
       If the category column is empty, the schedule will be seen with the category blanked.
+      If you don't want to set due, input x instead of 'YYYY-MM-DD'
 
       Example :
 
       `toclo add Assignment 2018-06-03`
 
       `toclo add Sleep 2018-06-04 Life`
+
+      `toclo add Study x Life`
 
       ### ls
       Format : `toclo ls [<category> <done> <all>]`
@@ -113,6 +118,26 @@
       Example :
 
       `toclo complete 3`
+
+    ## Convenience Features
+
+      # <due>
+      
+      When you 'add' or 'modify', you have to input '<due>' such as ''YYYY-MM-DD'.
+      Instead of typing long like above, you can just input number 0 ~ 7.
+      '<due>' will be saved in 'today after number days'.
+      For example, if number is 0, due will be today. If number is 1, due will be tomorrow.
+      
+      Example:
+
+      `toclo add "Finish assignment" 1 Study`
+
+      `toclo modify 1 - 0 -`
+
+      # Highlight
+
+      If a todo's due is over or today, that low is highlighted.
+      ![highlight](./ex_highlight.png)
 
     * If you entered the wrong command or the input format is incorrect, this program will open the help window automatically to make you understand the correct usage.
 

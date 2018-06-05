@@ -36,6 +36,7 @@ class Base(object):
         raise NotImplementedError('You must implement the run() method yourself!')
 
     def check_input(self, option = 0):
+        due_check_add = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|[0-7]$")
         due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-|[0-7]$")
         v_check = re.compile("^0|1|-$")
         due = self.options['<due>']
@@ -45,7 +46,7 @@ class Base(object):
             ctgr= ""
 
         if option == 0: # check due
-            if due_check.match(due):
+            if due_check_add.match(due):
                 if not self.check_category(ctgr):
                     self.add_category(ctgr)
                 return self.date_verify(due)
