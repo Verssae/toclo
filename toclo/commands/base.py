@@ -18,8 +18,12 @@ class Base(object):
     def __init__(self, options):
         self.options = options
 
-        username = getpass.getuser() 
-        self.conn = sqlite3.connect("/Users/"+username+"/schedule.db")
+        username = getpass.getuser()
+        if platform.system() == "Linux":
+            username = "/home/" + username
+        else:
+            username = "/Users/" + username
+        self.conn = sqlite3.connect(username+"/schedule.db")
         self.cur = self.conn.cursor()
 
         self.create_todo_table()
