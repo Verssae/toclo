@@ -18,8 +18,12 @@ class Base(object):
     def __init__(self, options):
         self.options = options
 
-        username = getpass.getuser() 
-        self.conn = sqlite3.connect("/Users/"+username+"/schedule.db")
+        username = getpass.getuser()
+        if platform.system() == "Linux":
+            username = "/home/" + username
+        else:
+            username = "/Users/" + username
+        self.conn = sqlite3.connect(username+"/schedule.db")
         self.cur = self.conn.cursor()
 
         self.create_todo_table()
@@ -36,6 +40,7 @@ class Base(object):
         raise NotImplementedError('You must implement the run() method yourself!')
 
     def check_input(self, option = 0):
+        due_check_add = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|[0-7]$")
         due_check = re.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2})|x|-|[0-7]$")
         v_check = re.compile("^0|1|-$")
         due = self.options['<due>']
@@ -45,7 +50,7 @@ class Base(object):
             ctgr= ""
 
         if option == 0: # check due
-            if due_check.match(due):
+            if due_check_add.match(due):
                 if not self.check_category(ctgr):
                     self.add_category(ctgr)
                 return self.date_verify(due)
