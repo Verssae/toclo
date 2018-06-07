@@ -22,10 +22,11 @@
   - It's very simple. Execute the command prompt and enter the command like below:
 
      `pip install toclo`
-     
+
   - If you want to update the new version of this program, you have to follow steps below:
 
      `pip uninstall toclo`
+     
      `pip install toclo`
 
 # Usage
