@@ -8,9 +8,8 @@ python:
   - "3.6-dev"  # 3.6 development branch
   - "3.7-dev"  # 3.7 development branch
 # command to install dependencies
-install:
-  - pip install -e .
+install: "pip install -r requirements.txt"
 # command to run tests
 script:
-  - test.py # or py.test for Python versions 3.5 and below
+  - pytest test.py # or py.test for Python versions 3.5 and below
 
