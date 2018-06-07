@@ -1,3 +1,4 @@
+![image](https://secure.travis-ci.org/[verssae]/[toclo].png)
 # Introduction : toclo
 - toclo is a command line program which is about managing our schedule.
 
@@ -125,11 +126,16 @@
 
     ## Convenience Features
 
+
+    ###Due
+
+      When you 'add' or 'modify', you have to input 'due' such as ''YYYY-MM-DD'.
+      
       # <due>
 
       When you 'add' or 'modify', you have to input '<due>' such as ''YYYY-MM-DD'.
       Instead of typing long like above, you can just input number 0 ~ 7.
-      '<due>' will be saved in 'today after number days'.
+      'due' will be saved in 'today after number days'.
       For example, if number is 0, due will be today. If number is 1, due will be tomorrow.
 
       Example:
@@ -138,7 +144,7 @@
 
       `toclo modify 1 - 0 -`
 
-      # Highlight
+    ###Highlight
 
       If a todo's due is over or today, that low is highlighted.
       ![highlight](./ex_highlight.png)

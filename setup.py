@@ -24,17 +24,12 @@ setup(
     author = 'Verssae',
     author_email = 'sparky@hanynag.ac.kr',
     license = 'MIT',
-    python_requires = '>= 3'
+    python_requires = '>= 3',
     classifiers = [
-        'Intended Audience :: Developers',
-        'Intended Audience :: Users',
-        'Topic :: cli',
-        'License :: MIT',
         'Natural Language :: English',
         'Natural Language :: Korean',
         'Operating System :: OS Independent',
         'Programming Language :: Python ',
-        
     ],
     keywords = 'todolist',
     packages = find_packages(exclude=['docs']),
