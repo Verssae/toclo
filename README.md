@@ -1,4 +1,4 @@
-![image](https://secure.travis-ci.org/[verssae]/[toclo].png)
+[![Build Status](https://travis-ci.org/Verssae/toclo.svg?branch=dev)](https://travis-ci.org/Verssae/toclo)
 # Introduction : toclo
 - toclo is a command line program which is about managing our schedule.
 
