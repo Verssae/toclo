@@ -1,0 +1,12 @@
+sudo: false
+language: python
+python:
+  - "3.6"
+# command to install dependencies
+install: 
+  - pip install -e .
+# command to run tests
+script:
+  - toclo ls
+  - toclo add "hello" 2018-06-12 
+
