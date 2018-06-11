@@ -22,6 +22,10 @@
   - It's very simple. Execute the command prompt and enter the command like below:
 
      `pip install toclo`
+  - If you want to update the new version of this program, you have to follow steps below:
+
+     `pip uninstall toclo`
+     `pip install toclo`
 
 # Usage
   - If you install the package into your computer, you can use the program like this:
@@ -122,9 +126,14 @@
 
     ## Convenience Features
 
+
     ###Due
 
       When you 'add' or 'modify', you have to input 'due' such as ''YYYY-MM-DD'.
+      
+      # <due>
+
+      When you 'add' or 'modify', you have to input '<due>' such as ''YYYY-MM-DD'.
       Instead of typing long like above, you can just input number 0 ~ 7.
       'due' will be saved in 'today after number days'.
       For example, if number is 0, due will be today. If number is 1, due will be tomorrow.
