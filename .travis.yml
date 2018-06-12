@@ -1,6 +1,8 @@
 sudo: false
 language: python
 python:
+  - "2.7"
+  - "3.5"
   - "3.6"
 # command to install dependencies
 install: 
@@ -9,4 +11,13 @@ install:
 script:
   - toclo ls
   - toclo add "hello" 2018-06-12 
+  - toclo add "use toclo" 0 test
+  - toclo ls all
+  - toclo ls test
+  - toclo ls done
+  - toclo modify 1 - 1 - - 
+  - toclo complete 1
+  - toclo --version
+  - toclo --help
+
 
