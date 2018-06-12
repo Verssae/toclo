@@ -22,9 +22,11 @@
   - It's very simple. Execute the command prompt and enter the command like below:
 
      `pip install toclo`
+
   - If you want to update the new version of this program, you have to follow steps below:
 
      `pip uninstall toclo`
+     
      `pip install toclo`
 
 # Usage
@@ -127,10 +129,10 @@
     ## Convenience Features
 
 
-    ###Due
+    ### Due
 
       When you 'add' or 'modify', you have to input 'due' such as ''YYYY-MM-DD'.
-      
+
       # <due>
 
       When you 'add' or 'modify', you have to input '<due>' such as ''YYYY-MM-DD'.
@@ -144,7 +146,7 @@
 
       `toclo modify 1 - 0 -`
 
-    ###Highlight
+    ### Highlight
 
       If a todo's due is over or today, that low is highlighted.
       ![highlight](./ex_highlight.png)
