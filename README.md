@@ -141,7 +141,7 @@
 
       `toclo modify 1 - 0 -`
 
-    ###Highlight
+     ###Highlight 
 
     If a todo's due is over or today, that low is highlighted.
 
