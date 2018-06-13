@@ -1,17 +1,12 @@
 [![Build Status](https://travis-ci.org/Verssae/toclo.svg?branch=dev)](https://travis-ci.org/Verssae/toclo)
 # Introduction : toclo
-- toclo is a command line program which is about managing our schedule.
 
-  It's name 'toclo' means 'todo'. (cl = d)
-
-  You can manage your schedule such as adding, modifying, searching your schedule by entering some commands that this program offers you.
-
-  This program is developed based on Python 3 and is easily available to anyone
-  who wants to use the app.
-
-  It is also made in a form of Python Package.
-
-  If you want to manage your schedule efficiently, I want to recommend this program to you.
+* 'toclo' is a command line program which is about managing our schedule.
+* It's name 'toclo' means 'todo'. (cl = d)
+* You can manage your schedule such as adding, modifying, searching your schedule by entering some commands that this program offers you.
+* This program is developed based on Python 3 and is easily available to anyone who wants to use the app.
+* It is also made in a form of Python Package.
+* If you want to manage your schedule efficiently, I want to recommend this program to you.
 
 # Requirements
 - This program needs:
@@ -58,7 +53,7 @@
       If the category column is empty, the schedule will be seen with the category blanked.
       If you don't want to set due, input x instead of 'YYYY-MM-DD'
 
-      Example :
+      **Example** :
 
       `toclo add Assignment 2018-06-03`
 
@@ -77,7 +72,7 @@
 
       If you want to see your all schedules including finished/unfinished, you should enter the command `toclo ls all`.
 
-      Example :
+      **Example** :
 
       `toclo ls`
 
@@ -128,29 +123,30 @@
 
     ## Convenience Features
 
-
     ### Due
 
-      When you 'add' or 'modify', you have to input 'due' such as ''YYYY-MM-DD'.
+    When you 'add' or 'modify', you have to input 'due' such as 'YYYY-MM-DD'.
 
-      # <due>
+    When you 'add' or 'modify', you have to input '<due>' such as 'YYYY-MM-DD'.
 
-      When you 'add' or 'modify', you have to input '<due>' such as ''YYYY-MM-DD'.
-      Instead of typing long like above, you can just input number 0 ~ 7.
-      'due' will be saved in 'today after number days'.
-      For example, if number is 0, due will be today. If number is 1, due will be tomorrow.
+    Instead of typing long like above, you can just input number 0 ~ 7.
 
-      Example:
+    Then, 'due' will be saved in 'today after number days'.
+
+     For example, if number is 0, due will be today. If number is 1, due will be tomorrow.
+
+    **Example**:
 
       `toclo add "Finish assignment" 1 Study`
 
       `toclo modify 1 - 0 -`
 
-    ### Highlight
+    ###Highlight
 
-      If a todo's due is over or today, that low is highlighted.
-      ![highlight](./ex_highlight.png)
+    If a todo's due is over or today, that low is highlighted.
 
-    * If you entered the wrong command or the input format is incorrect, this program will open the help window automatically to make you understand the correct usage.
+  ![highlight](./ex_highlight.png)
+
+* If you entered the wrong command or the input format is incorrect, this program will open the help window automatically to make you understand the correct usage.
 
 - If you want more information, please contact us through the github.

@@ -5,15 +5,16 @@ from setuptools import Command, find_packages, setup
 
 from toclo import __version__
 
-
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name = 'toclo',
     version = __version__,
     description = 'A todo list command line program in Python.',
-    long_description = long_description,
+    long_description=long_description,
     long_description_content_type='text/markdown',
     url = "https://github.com/Verssae/toclo",
     download_url = 'https://github.com/Verssae/toclo.git',
